@@ -7,24 +7,22 @@ import { useAuth } from "../../hooks/auth";
 
 export const UserSignIn = () => {
   const [form, setForm] = useState();
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
 
   const handleValue = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = useCallback(async () =>{
-    console.log(signIn);
-    // await signIn(form);
-    
-    toast.success('Loguin realizado com sucesso!');
+  const handleSubmit = useCallback(async () => {
+    await signIn(form);
+
+    toast.success("Loguin realizado com sucesso!");
   }, [form, signIn]);
 
   return (
     <main className={styles.container}>
       <h2>Logue no Trainder</h2>
       <FormControl>
-      
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input id="email" type="email" name="email" onChange={handleValue} />
         <FormLabel htmlFor="password">Senha</FormLabel>

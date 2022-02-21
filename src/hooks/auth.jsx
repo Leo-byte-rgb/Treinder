@@ -1,23 +1,24 @@
-import React, { createContext, useCallback, useState, useContext } from 'react';
-import api from '../services/api';
-import { getItem, removeItem, setItem } from '../utils/localstorage';
+import React, { createContext, useCallback, useState, useContext } from "react";
+import api from "../services/api";
+import { getItem, removeItem, setItem } from "../utils/localstorage";
+import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext({}
-);
+export const AuthContext = createContext({});
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth must be used within a AuthProvider');
+    throw new Error("useAuth must be used within a AuthProvider");
   }
   return context;
 };
 
-export const AuthProvider= ({ children }) => {
+export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [data, setData] = useState(() => {
-    const token = getItem('token');
-    const user = getItem('user');
+    const token = getItem("token");
+    const user = getItem("user");
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       return {
@@ -28,42 +29,42 @@ export const AuthProvider= ({ children }) => {
     return {};
   });
 
-  const signIn = useCallback(
-    async ({ email, password }) => {
-      const response = await api.post('sessions', {
-        email,
-        password,
-      });
-      const { token, refreshToken, user } = response.data;
+  const signIn = useCallback(async ({ email, password }) => {
+    navigate("/trainers");
 
-      setItem('token', token);
-      setItem('refreshToken', refreshToken);
-      setItem('user', JSON.stringify(user));
+    const response = await api.post("sessions", {
+      email,
+      password,
+    });
 
-      api.defaults.headers.authorization = `Bearer ${token}`;
+    const { token, refreshToken, user } = response.data;
 
-      setData({ token, user });
-    },
-    [],
-  );
+    setItem("token", token);
+    setItem("refreshToken", refreshToken);
+    setItem("user", JSON.stringify(user));
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
+    setData({ token, user });
+  }, []);
 
   const signOut = useCallback(() => {
     api.defaults.headers.authorization = ``;
-    removeItem('token');
-    removeItem('refreshToken');
-    removeItem('user');
+    removeItem("token");
+    removeItem("refreshToken");
+    removeItem("user");
     setData({});
   }, []);
 
   const updateUser = useCallback(
     (user) => {
-      setItem('user', JSON.stringify(user));
+      setItem("user", JSON.stringify(user));
       setData({
         token: data.token,
         user,
       });
     },
-    [setData, data.token],
+    [setData, data.token]
   );
   return (
     <AuthContext.Provider

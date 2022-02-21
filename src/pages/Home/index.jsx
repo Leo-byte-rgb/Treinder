@@ -1,8 +1,10 @@
 import styles from "./styles.module.scss";
 import { Button } from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 import img from "../../assets/hero.png";
 
 export const Home = () => {
+  const navigate = useNavigate();
   return (
     <main className={styles.container}>
       <header className={styles.header}>
@@ -11,6 +13,12 @@ export const Home = () => {
           <li>Personais</li>
           <li>Nutricionistas</li>
           <li>Contato</li>
+          <li onClick={() => navigate("/user-signup")}>
+            Registre-se como aluno
+          </li>
+          <li onClick={() => navigate("/trainer-signup")}>
+            Registre-se como professor
+          </li>
         </ol>
       </header>
       <section className={styles.hero}>
@@ -21,7 +29,11 @@ export const Home = () => {
           você quer braços e ombros grandes, sua primeira prioridade é ter
           certeza que suas pernas, quadril e costas tem estrutura suficiente.
         </p>
-        <Button text="Começar" type="button" />
+        <Button
+          text="Começar"
+          type="button"
+          onClick={() => navigate("/login")}
+        />
       </section>
       <div className={styles.card}>
         <b>Profissionais</b>
@@ -54,7 +66,7 @@ export const Home = () => {
             </div>
           </li>
         </ul>
-        <Button text="Conhecer" />
+        <Button text="Conhecer" onClick={() => navigate("/login")} />
       </div>
       <img src={img} alt="" />
     </main>
