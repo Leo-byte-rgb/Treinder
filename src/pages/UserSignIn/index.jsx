@@ -1,36 +1,32 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 import weightLift from "../../assets/men.png";
 import styles from "./styles.module.scss";
-import api from "../../services/api";
 import { toast } from "react-toastify";
+import { useAuth } from "../../hooks/auth";
 
-export const UserSignUp = () => {
+export const UserSignIn = () => {
   const [form, setForm] = useState();
+  const {signIn} = useAuth();
 
   const handleValue = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = () =>{
-    api.post('/users', form).then(()=>{
-      toast.success('Cadastro realizado com sucesso!');
-    }).catch(()=>{
-      toast.error('Erro ao realizar o cadastro!');
-    });
-
-  };
+  const handleSubmit = useCallback(async () =>{
+    console.log(signIn);
+    // await signIn(form);
+    
+    toast.success('Loguin realizado com sucesso!');
+  }, [form, signIn]);
 
   return (
     <main className={styles.container}>
-      <h2>Registre-se no Trainder</h2>
+      <h2>Logue no Trainder</h2>
       <FormControl>
-      <FormLabel htmlFor="name">Nome Completo</FormLabel>
-        <Input id="name" type="text" name="name" onChange={handleValue} />
+      
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input id="email" type="email" name="email" onChange={handleValue} />
-        <FormLabel htmlFor="phone">Telefone</FormLabel>
-        <Input id="phone" type="number" name="phone" onChange={handleValue} />
         <FormLabel htmlFor="password">Senha</FormLabel>
         <Input
           id="password"
@@ -38,15 +34,6 @@ export const UserSignUp = () => {
           name="password"
           onChange={handleValue}
         />
-        <FormLabel htmlFor="password_confirmation">Repita sua senha</FormLabel>
-        <Input
-          id="password_confirmation"
-          name="password_confirmation"
-          type="password"
-          onChange={handleValue}
-        />
-
-
         <Button onClick={handleSubmit}>Enviar</Button>
       </FormControl>
       <img src={weightLift} />
