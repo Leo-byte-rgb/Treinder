@@ -10,10 +10,13 @@ import weightLift from "../../assets/woman.png";
 import styles from "./styles.module.scss";
 import api from "../../services/api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const TrainerSignUp = () => {
   const [form, setForm] = useState();
 
+  const navigate = useNavigate();
+  
   const handleValue = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
@@ -21,6 +24,7 @@ export const TrainerSignUp = () => {
   const handleSubmit = () =>{
     api.post('/users/trainer', form).then(()=>{
       toast.success('Cadastro realizado com sucesso!');
+      navigate("/login");
     }).catch(()=>{
       toast.error('Erro ao realizar o cadastro!');
     });

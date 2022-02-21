@@ -74,6 +74,7 @@ export const Card = ({ name, description, phone, email, city, photo }) => {
           <a
             style={{ width: "100%" }}
             href={` https://api.whatsapp.com/send?phone=55${phone}`}
+            target="_blank"
           >
             <Button
               flex={1}
