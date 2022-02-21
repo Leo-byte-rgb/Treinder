@@ -1,0 +1,41 @@
+@import "../../global";
+
+.container {
+  @include sizes;
+  background: $bege;
+
+  @include flex($align: center, $justify: center, $direction: column);
+
+  overflow: auto;
+  gap: 20px;
+
+  > div {
+    max-width: 600px;
+
+    background: $white;
+
+    padding: 32px;
+
+    border-radius: 20px;
+    z-index: 1;
+
+    button {
+      margin-top: 20px;
+    }
+  }
+  label {
+    margin-top: 20px;
+  }
+
+  h2,
+  label {
+    color: $text-color;
+  }
+  img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 800px;
+    height: 600px;
+  }
+}

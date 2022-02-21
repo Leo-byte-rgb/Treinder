@@ -56,7 +56,6 @@ export const Home = () => {
         </ul>
         <Button text="Conhecer" />
       </div>
-
       <img src={img} alt="" />
     </main>
   );
